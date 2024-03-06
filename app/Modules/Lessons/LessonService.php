@@ -44,8 +44,6 @@ class LessonService extends Service
     public function all($perPage, $search)
     {
         return $this->model
-            ->select($this->fields)
-            ->with($this->getRelationFields())
             ->paginate($perPage);
     }
 }

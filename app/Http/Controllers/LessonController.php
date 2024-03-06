@@ -6,7 +6,7 @@ use App\Models\Lesson;
 use App\Modules\Lessons\LessonService;
 use Illuminate\Http\Request;
 
-class LessonController extends \ApiServiceController
+class LessonController extends ApiServiceController
 {
     public function __construct(LessonService $service)
     {
@@ -14,7 +14,7 @@ class LessonController extends \ApiServiceController
     }
     public function all(Request $request)
     {
-        $lessons = $this->service->all(false, "");
+        $lessons = $this->service->all(10, "");
         return response()->json($lessons);
     }
 

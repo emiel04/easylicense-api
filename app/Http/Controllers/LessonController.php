@@ -3,44 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lesson;
+use App\Modules\Lessons\LessonService;
 use Illuminate\Http\Request;
 
-class LessonController extends Controller
+class LessonController extends \ApiServiceController
 {
-    public function index()
+    public function __construct(LessonService $service)
     {
-        return Lesson::all();
+        $this->service = $service;
+    }
+    public function all(Request $request)
+    {
+        $lessons = $this->service->all(false, "");
+        return response()->json($lessons);
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
 
-        ]);
-
-        return Lesson::create($data);
-    }
-
-    public function show(Lesson $lesson)
-    {
-        return $lesson;
-    }
-
-    public function update(Request $request, Lesson $lesson)
-    {
-        $data = $request->validate([
-
-        ]);
-
-        $lesson->update($data);
-
-        return $lesson;
-    }
-
-    public function destroy(Lesson $lesson)
-    {
-        $lesson->delete();
-
-        return response()->json();
-    }
 }

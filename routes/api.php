@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::get('/lessons', [LessonController::class, 'all']);
+Route::get('/lessons/title', [LessonController::class, 'allTitles']);

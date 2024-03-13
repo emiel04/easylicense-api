@@ -2,20 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CategoryTranslation extends Model
 {
     use HasFactory;
-    protected function category(): BelongsTo
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    protected function language(): BelongsTo
+    public function language(): HasOne
     {
-        return $this->belongsTo(Language::class);
+        return $this->hasOne(Language::class);
     }
 }

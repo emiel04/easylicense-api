@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     use HasFactory;
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
     }
+
 
 }

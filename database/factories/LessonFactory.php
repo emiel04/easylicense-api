@@ -18,7 +18,7 @@ class LessonFactory extends Factory
     public function definition()
     {
         return [
-            'category_id' => $this->faker->numberBetween(0, 3),
+            'category_id' => $this->faker->numberBetween(1, 3),
         ];
     }
 }

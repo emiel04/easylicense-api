@@ -17,10 +17,22 @@ class LessonTranslationFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence,
-            'content' => $this->faker->paragraph,
+            'title' => function (array $attributes) {
+                return $this->generateSentence($attributes['language_id'], 'title', $attributes['lesson_id']);
+            },
+            'content' => function (array $attributes) {
+                return $this->generateSentence($attributes['language_id'], 'content', $attributes['lesson_id']);
+            },
             'lesson_id' => $this->faker->numberBetween(0,3),
-            'language_id' => $this->faker->numberBetween(0,1),
         ];
+    }
+
+    private function generateSentence($languageId, $type, $lessonId): string
+    {
+        if ($type == 'title') {
+            return $languageId == 1 ? 'Dutch Title ' . $lessonId : 'English Title ' . $lessonId;
+        } else {
+            return $languageId == 1 ? 'Dutch Content ' . $lessonId : 'English Content ' . $lessonId;
+        }
     }
 }

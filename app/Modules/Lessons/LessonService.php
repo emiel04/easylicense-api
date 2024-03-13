@@ -22,7 +22,8 @@ class LessonService extends Service
     protected function getRelationFields(): array
     {
         return [
-            'category:id,name',
+            'category',
+            'translations:title,content'
         ];
     }
 
@@ -36,14 +37,13 @@ class LessonService extends Service
         return $this->model
             ->select($this->fields)
             ->with($this->getRelationFields())
-            ->with('translations')
-            ->inRandomOrder()
-            ->first();
+            ->inRandomOrder()->first();
     }
-
-    public function all($perPage, $search)
+    public function titles()
     {
         return $this->model
-            ->paginate($perPage);
+            ->select('id', 'title')
+            ->with($this->getRelationFields())
+            ->with('translations');
     }
 }

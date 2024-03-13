@@ -2,6 +2,7 @@
 
 namespace App\Modules\Core\Services;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 
@@ -12,7 +13,7 @@ abstract class Service
     protected string $searchField;
     protected MessageBag $errors;
     protected array $rules;
-    protected bool $isTranslatable=false;
+    protected bool $isTranslatable = false;
 
     public function __construct($model)
     {
@@ -43,9 +44,11 @@ abstract class Service
     }
 
     public function all($perPage, $search){
-        throw new \Exception('Not implemented');
+//        return $this->model
+//            ->with($this->getRelationFields())
+//            ->paginate($perPage);
+        return $this->getModel()->get();
     }
-
     public function update($data, $id)
     {
         throw new \Exception('Not implemented');
@@ -90,5 +93,29 @@ abstract class Service
     public function isTranslatable()
     {
         return $this->isTranslatable;
+    }
+
+    protected function getModel(string $language='')
+    {
+        if($language){
+            App::setLocale($language);
+        }
+        $model = $this->model
+        ->select($this->fields);
+//        ->with($this->getRelationFields());
+
+        if($this->isTranslatable()){
+            $model->with($this->getTranslations($language));
+        }
+        return $model;
+    }
+
+    protected function getTranslations(string $language): array
+    {
+        return [
+            'translations' => function() use ($language) {
+                return $this->model->translations().where('language_id', $language);
+            }
+        ];
     }
 }

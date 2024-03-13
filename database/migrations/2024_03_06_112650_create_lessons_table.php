@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
     }

@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('language_name');
             $table->string('language_name_native');
+            $table->string('language_code');
             $table->timestamps();
         });
     }

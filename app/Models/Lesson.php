@@ -11,7 +11,7 @@ class Lesson extends Model
 {
     use HasFactory;
     protected $model = Lesson::class;
-
+    protected $hidden = ['created_at', 'updated_at', 'category_id'];
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

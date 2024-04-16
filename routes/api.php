@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LessonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/lessons', [LessonController::class, 'all']);
 Route::get('/lessons/title', [LessonController::class, 'allTitles']);
+Route::get('/categories', [CategoryController::class, 'all']);

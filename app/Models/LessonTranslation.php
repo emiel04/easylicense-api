@@ -11,12 +11,12 @@ class LessonTranslation extends Model
     use HasFactory;
     protected $hidden = ['created_at', 'updated_at'];
 
-    protected function lesson(): BelongsTo
+    public function lesson(): BelongsTo
     {
         return $this->belongsTo(Lesson::class);
     }
 
-    protected function language(): BelongsTo
+    public function language(): BelongsTo
     {
         return $this->belongsTo(Language::class);
     }

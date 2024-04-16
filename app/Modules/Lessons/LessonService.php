@@ -10,6 +10,7 @@ class LessonService extends Service
     protected array $fields = ['id', 'category_id'];
     protected string $searchField = 'id';
     protected bool $isTranslatable = true;
+
     protected array $rules = [
         "add" => [
             'category_id' => 'required|exists:categories,id',
@@ -18,12 +19,10 @@ class LessonService extends Service
             'category_id' => 'required|exists:categories,id',
         ]
     ];
-
     protected function getRelationFields(): array
     {
         return [
             'category',
-            'translations:title,content'
         ];
     }
 
@@ -31,6 +30,7 @@ class LessonService extends Service
     {
         parent::__construct($model);
     }
+    protected $model = Lesson::class;
 
     public function random()
     {
@@ -41,6 +41,7 @@ class LessonService extends Service
     }
     public function titles()
     {
+
         return $this->model
             ->select('id', 'title')
             ->with($this->getRelationFields())

@@ -14,8 +14,9 @@ class LessonSeeder extends Seeder
         $lessons = Lesson::factory()->count(50)->create();
         // For each lesson, create a translation
         $lessons->each(function (Lesson $lesson) {
-            LessonTranslation::factory()->create(['lesson_id' => $lesson->id, 'language_id' => 1]); // Dutch
-            LessonTranslation::factory()->create(['lesson_id' => $lesson->id, 'language_id' => 2]); // English
+            LessonTranslation::factory()->create(['lesson_id' => $lesson->id, 'language_code' => 'nl']); // Dutch
+            LessonTranslation::factory()->create(['lesson_id' => $lesson->id, 'language_code' => 'en']); // English
         });
+
     }
 }

@@ -13,16 +13,8 @@ class LessonController extends ApiServiceController
     {
         $this->service = $service;
     }
-    public function all(Request $request)
-    {
-        $locale = App::getLocale();
-        $lang = $request->input('lang', $locale);
-        if($lang != $locale){
-            App::setLocale($lang);
-        }
-        $lessons = $this->service->all($lang);
-        return response()->json($lessons);
-    }
+
+
     public function allTitles(Request $request)
     {
         $lessons = $this->service->titles();

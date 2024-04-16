@@ -8,10 +8,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('languages', function (Blueprint $table) {
-            $table->id();
+            $table->string('language_code')->unique()->primary();
             $table->string('language_name');
             $table->string('language_name_native');
-            $table->string('language_code');
             $table->timestamps();
         });
     }

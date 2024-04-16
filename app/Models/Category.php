@@ -10,10 +10,14 @@ class Category extends Model
 {
     use HasFactory;
     protected $hidden = ['created_at', 'updated_at'];
-
-    protected function lessons(): HasMany
+    public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);
+    }
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany(CategoryTranslation::class, 'language_code');
     }
 
 

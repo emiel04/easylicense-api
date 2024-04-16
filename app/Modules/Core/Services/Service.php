@@ -2,13 +2,14 @@
 
 namespace App\Modules\Core\Services;
 
+use App\Models\Lesson;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 
 abstract class Service
 {
-    protected object $model;
+    protected $model;
     protected array $fields;
     protected string $searchField;
     protected MessageBag $errors;
@@ -43,11 +44,13 @@ abstract class Service
         return $quote;
     }
 
-    public function all($perPage, $search){
-//        return $this->model
-//            ->with($this->getRelationFields())
-//            ->paginate($perPage);
-        return $this->getModel()->get();
+    public function all($language, $search = ''){
+
+        return $this->getModel($language)->get();
+    }
+    public function allPaginated($language, $perPage = 5, $search = ''){
+
+        return $this->getModel($language)->paginate($perPage);
     }
     public function update($data, $id)
     {
@@ -90,32 +93,26 @@ abstract class Service
         return $this->errors->isNotEmpty();
     }
 
-    public function isTranslatable()
+    public function isTranslatable(): bool
     {
         return $this->isTranslatable;
     }
-
-    protected function getModel(string $language='')
+    public function getModel($language = null)
     {
-        if($language){
-            App::setLocale($language);
-        }
         $model = $this->model
-        ->select($this->fields);
-//        ->with($this->getRelationFields());
+            ->with($this->getRelationFields());
+        \Log::info($language);
+        if ($this->isTranslatable() && $language !== null) {
+            $model = $model->with(['translations' => function ($query) use ($language) {
+                $query->where('language_code', $language);
+            }]);
+        }else if($this->isTranslatable()){
 
-        if($this->isTranslatable()){
-            $model->with($this->getTranslations($language));
+            $model = $model->with('translations');
         }
+
         return $model;
     }
 
-    protected function getTranslations(string $language): array
-    {
-        return [
-            'translations' => function() use ($language) {
-                return $this->model->translations().where('language_id', $language);
-            }
-        ];
-    }
+
 }

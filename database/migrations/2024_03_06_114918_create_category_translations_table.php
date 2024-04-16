@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('category_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id');
-            $table->foreignId('language_id');
+            $table->foreignId('language_code');
             $table->string('category_name');
             $table->timestamps();
         });

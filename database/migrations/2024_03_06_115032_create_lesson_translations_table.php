@@ -9,10 +9,10 @@ return new class extends Migration {
     {
         Schema::create('lesson_translations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('lesson_id');
+            $table->foreignId('language_code');
             $table->string('title');
             $table->string('content');
-            $table->foreignId('lesson_id');
-            $table->foreignId('language_id');
             $table->timestamps();
         });
     }

@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 
 abstract class ApiServiceController extends Controller
 {
     protected $service;
-
 
     public function find($id)
     {
@@ -19,7 +19,14 @@ abstract class ApiServiceController extends Controller
 
     public function all(Request $request)
     {
-         throw new \Exception('Not implemented');
+        $locale = App::getLocale();
+        $lang = $request->input('lang', $locale);
+        if($lang != $locale){
+            App::setLocale($lang);
+        }
+        $all = $this->service->all($lang);
+
+        return response()->json($all);
     }
 
 

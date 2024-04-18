@@ -10,6 +10,7 @@ class Category extends Model
 {
     use HasFactory;
     protected $hidden = ['created_at', 'updated_at'];
+    protected $fillable = [''];
     public function lessons(): HasMany
     {
         return $this->hasMany(Lesson::class);

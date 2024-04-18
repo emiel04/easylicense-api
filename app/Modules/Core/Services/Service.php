@@ -40,8 +40,21 @@ abstract class Service
             return null;
         }
 
-        $quote = $this->model->create($data);
-        return $quote;
+        if ($this->isTranslatable()) {
+            $translationData = $data['translations'];
+            unset($data['translations']);
+
+            $model = $this->model->create($data);
+            foreach ($translationData as $lang => $translation) {
+                $translation['language_code'] = $lang;
+                \Log::info($translation);
+                $model->translations()->create($translation);
+            }
+
+            return $model->load('translations');
+        }
+
+        return $this->model->create($data);
     }
 
     public function all($language, $search = ''){
@@ -107,9 +120,10 @@ abstract class Service
                 $query->where('language_code', $language);
             }]);
         }else if($this->isTranslatable()){
-
             $model = $model->with('translations');
         }
+
+
 
         return $model;
     }

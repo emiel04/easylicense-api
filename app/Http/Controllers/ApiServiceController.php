@@ -20,13 +20,32 @@ abstract class ApiServiceController extends Controller
     public function all(Request $request)
     {
         $locale = App::getLocale();
-        $lang = $request->input('lang', $locale);
+        $lang = $request->input('lang');
         if($lang != $locale){
             App::setLocale($lang);
         }
-        $all = $this->service->all($lang);
+        $all = $this->service->all($lang)->toArray();
 
-        return response()->json($all);
+        $result = [];
+
+        if (isset($all[0]["translations"])) {
+            foreach ($all as $index => $item) {
+                if (isset($item["translations"])) {
+                    if (count($item["translations"]) == 1) {
+                        $result[$index] = $item;
+                        foreach ($item["translations"][0] as $key => $value) {
+                            $result[$index][$key] = $value;
+                            unset($result[$index]['translations']);
+                        }
+                    }else{
+                        $result = $all;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return response()->json($result);
     }
 
 

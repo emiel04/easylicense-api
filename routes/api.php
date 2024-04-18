@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\JwtAuthController;
 use App\Http\Controllers\LessonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,11 +17,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::get('/lessons', [LessonController::class, 'all']);
+Route::post('/lessons', [LessonController::class, 'create']);
+
+Route::get('/categories', [CategoryController::class, 'all']);
+Route::post('/categories', [CategoryController::class, 'create']);
+
+
+
+
+Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group([
+    "prefix" => "auth",
+], function(){
+    Route::post("register", [JwtAuthController::class, "register"]);
+    Route::post("login", [JwtAuthController::class, "login"]);
+    Route::group([
+        "middleware" => ["auth:api", "auth.csrf.jwt"],
+    ], function(){
+        Route::get('/lessons/title', [LessonController::class, 'allTitles']);
+        Route::get("profile", [JwtAuthController::class, "profile"]);
+        Route::get("refresh", [JwtAuthController::class, "refreshToken"]);
+        Route::get("logout", [JwtAuthController::class, "logout"]);
+    });
 
-Route::get('/lessons', [LessonController::class, 'all']);
-Route::get('/lessons/title', [LessonController::class, 'allTitles']);
-Route::get('/categories', [CategoryController::class, 'all']);
+});

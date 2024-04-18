@@ -43,6 +43,8 @@ abstract class ApiServiceController extends Controller
                     }
                 }
             }
+        }else{
+            $result = $all;
         }
 
         return response()->json($result);

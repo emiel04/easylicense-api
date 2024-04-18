@@ -91,10 +91,15 @@ class JwtAuthController extends Controller
         $csrfLength = env("CSRF_TOKEN_LENGTH");         // added token length
         $csrfToken = Random::generate($csrfLength);     // added token generation
 
+        $currentToken = auth()->getToken();
 
-        $token = JWTAuth::claims(['X-XSRF-TOKEN' => $csrfToken])->refresh(); // added claim
+        $newToken = JWTAuth::setToken($currentToken)
+            ->claims(['X-XSRF-TOKEN' => $csrfToken])
+            ->refresh();
+
+
         $ttl = env("JWT_COOKIE_TTL");   // added token expiry
-        $tokenCookie = cookie("token", $token, $ttl);  // added jwt token cookie
+        $tokenCookie = cookie("token", $newToken, $ttl);  // added jwt token cookie
         $csrfCookie = cookie("X-XSRF-TOKEN", $csrfToken, $ttl); // added csrf token cookie
 
         return response(["message" => "Token refresh succcessfully"])

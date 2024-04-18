@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LessonSeeder::class,
             UserSeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }

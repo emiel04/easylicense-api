@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JwtAuthController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,8 @@ Route::post('/lessons', [LessonController::class, 'create']);
 Route::get('/categories', [CategoryController::class, 'all']);
 Route::post('/categories', [CategoryController::class, 'create']);
 
+Route::get('/reviews', [ReviewController::class, 'all']);
+Route::post('/reviews', [ReviewController::class, 'create']);
 
 
 
@@ -38,10 +41,15 @@ Route::group([
     Route::group([
         "middleware" => ["auth:api", "auth.csrf.jwt"],
     ], function(){
-        Route::get('/lessons/title', [LessonController::class, 'allTitles']);
         Route::get("profile", [JwtAuthController::class, "profile"]);
         Route::get("refresh", [JwtAuthController::class, "refreshToken"]);
         Route::get("logout", [JwtAuthController::class, "logout"]);
     });
 
+});
+// Authenticated routes
+Route::group([
+    "middleware" => ["auth:api", "auth.csrf.jwt"],
+], function(){
+    Route::get('/lessons/title', [LessonController::class, 'allTitles']);
 });

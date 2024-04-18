@@ -39,7 +39,6 @@ abstract class Service
         if(! $this->validate($data, $ruleKey)){
             return null;
         }
-
         if ($this->isTranslatable()) {
             $translationData = $data['translations'];
             unset($data['translations']);
@@ -47,7 +46,6 @@ abstract class Service
             $model = $this->model->create($data);
             foreach ($translationData as $lang => $translation) {
                 $translation['language_code'] = $lang;
-                \Log::info($translation);
                 $model->translations()->create($translation);
             }
 
@@ -114,7 +112,7 @@ abstract class Service
     {
         $model = $this->model
             ->with($this->getRelationFields());
-        \Log::info($language);
+
         if ($this->isTranslatable() && $language !== null) {
             $model = $model->with(['translations' => function ($query) use ($language) {
                 $query->where('language_code', $language);
@@ -122,8 +120,6 @@ abstract class Service
         }else if($this->isTranslatable()){
             $model = $model->with('translations');
         }
-
-
 
         return $model;
     }

@@ -28,6 +28,7 @@ abstract class Service
 
     public function find($lang, $id)
     {
+        $model = $this->getModel($lang);
         return $this->getModel($lang)->find($id);
 
     }
@@ -61,9 +62,9 @@ abstract class Service
 
         return $this->getModel($language)->paginate($perPage);
     }
-    public function update($data, $find)
+    public function update($data, $id)
     {
-        $model = $this->model->find($find);
+        $model = $this->model->find($id);
         if (!$model) {
             return null;
         }
@@ -88,13 +89,13 @@ abstract class Service
                 }
             }
 
-            return $this->getModel()->find($find);
+            return $this->getModel()->find($id);
         }
 
         // Update the model instance
         $model->update($data);
 
-        return $this->getModel()->find($find);
+        return $this->getModel()->find($id);
     }
 
     public function delete($id)
@@ -165,7 +166,6 @@ abstract class Service
     {
         $model = $this->model
             ->with($this->getRelationFields());
-
         if ($this->isTranslatable() && $language !== null) {
             $model = $model->with(['translations' => function ($query) use ($language) {
                 $query->where('language_code', $language);

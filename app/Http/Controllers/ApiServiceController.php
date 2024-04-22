@@ -14,13 +14,12 @@ abstract class ApiServiceController extends Controller
     {
         $lang = $request->input('lang');
 
-        $data = $this->service->find($lang, $id);
-
+        $data = $this->service->find($lang, $id)->toArray(); // transform the data to an associative array so that it can be manipulated
         if (empty($data)) {
             return response(null, Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($data);
+        return response()->json($this->transformTranslatableData($data));
     }
 
     public function allPaginated(Request $request)
@@ -33,34 +32,29 @@ abstract class ApiServiceController extends Controller
         $lang = $request->input('lang');
 
         if ($paginated) {
-            $all = $this->service->allPaginated($lang)->toArray();
+            $all = $this->service->allPaginated($lang)->toArray(); // transform the data to an associative array so that it can be manipulated
         } else {
             $all = $this->service->all($lang)->toArray();
         }
-        $result = [];
 
-        if (isset($all[0]["translations"])) {
-            foreach ($all as $index => $item) {
-                if (isset($item["translations"])) {
-                    if (count($item["translations"]) == 1) {
-                        $result[$index] = $item;
-                        foreach ($item["translations"][0] as $key => $value) {
-                            $result[$index][$key] = $value;
-                            unset($result[$index]['translations']);
-                        }
-                    }else{
-                        $result = $all;
-                        break;
-                    }
-                }
-            }
-        }else{
-            $result = $all;
+        foreach ($all as &$item) { // & means that we are passing the reference of the item
+            $item = $this->transformTranslatableData($item);
         }
 
-        return response()->json($result);
+        return response()->json($all);
     }
 
+
+    private function transformTranslatableData($data)
+    {
+        if (isset($data["translations"]) && count($data["translations"]) == 1) {
+            $translatedData = $data["translations"][0];
+            unset($data["translations"]);
+            return array_merge($data, $translatedData);
+        }
+
+        return $data;
+    }
 
     public function create(Request $request)
     {

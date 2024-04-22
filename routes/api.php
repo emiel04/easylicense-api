@@ -42,7 +42,7 @@ Route::group([
 ], function(){
     Route::get('/lessons/title', [LessonController::class, 'allTitles']);
     Route::post('/reviews', [ReviewController::class, 'create']);
-    Route::get('/lessons', [LessonController::class, 'allPaginated']);
+    Route::get('/lessons', [LessonController::class, 'all']);
     Route::get('/lessons/{id}', [LessonController::class, 'find']);
     Route::post('/lessons', [LessonController::class, 'create']);
 

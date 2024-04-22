@@ -15,7 +15,7 @@ class VerifyJwtCsrfToken
             $request->cookie('X-XSRF-TOKEN')  !==
             auth()->payload()->get('X-XSRF-TOKEN')
         ) {
-            return response()->json(['Invalid request'], 400);
+            return response(null, Response::HTTP_BAD_REQUEST);
         }
 
         return $next($request);

@@ -21,7 +21,7 @@ class Localisation
             App::setLocale($lang);
             return $next($request);
         } else {
-            return response()->json(['message' => 'Language not supported'], 400);
+            return response()->json(['message' => 'Language not supported'], Response::HTTP_BAD_REQUEST);
         }
 
 

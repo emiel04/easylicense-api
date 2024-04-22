@@ -16,15 +16,27 @@ abstract class ApiServiceController extends Controller
 
         $data = $this->service->find($lang, $id);
 
+        if (empty($data)) {
+            return response(null, Response::HTTP_NOT_FOUND);
+        }
+
         return response()->json($data);
     }
 
-    public function all(Request $request)
+    public function allPaginated(Request $request)
+    {
+        return $this->all($request, true);
+    }
+
+    public function all(Request $request, $paginated = false)
     {
         $lang = $request->input('lang');
 
-        $all = $this->service->all($lang)->toArray();
-
+        if ($paginated) {
+            $all = $this->service->allPaginated($lang)->toArray();
+        } else {
+            $all = $this->service->all($lang)->toArray();
+        }
         $result = [];
 
         if (isset($all[0]["translations"])) {

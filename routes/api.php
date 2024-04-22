@@ -42,15 +42,23 @@ Route::group([
 ], function(){
     Route::get('/lessons/title', [LessonController::class, 'allTitles']);
     Route::post('/reviews', [ReviewController::class, 'create']);
-    Route::get('/lessons', [LessonController::class, 'all']);
+    Route::get('/lessons', [LessonController::class, 'allPaginated']);
     Route::get('/lessons/{id}', [LessonController::class, 'find']);
     Route::post('/lessons', [LessonController::class, 'create']);
-    Route::put('/lessons/{id}', [LessonController::class, 'update']); // THIS IS FOR ADMIN ONLY
-    Route::delete('/lessons/{id}', [LessonController::class, 'delete']); // THIS IS FOR ADMIN ONLY
+
 
     Route::get('/categories', [CategoryController::class, 'all']);
     Route::post('/categories', [CategoryController::class, 'create']);
 
     Route::get('/reviews', [ReviewController::class, 'all']);
-});
 
+    Route::group([
+        "middleware" => ["admin"],
+        "prefix" => "admin",
+    ], function(){
+        Route::put('/lessons/{id}', [LessonController::class, 'update']);
+        Route::delete('/lessons/{id}', [LessonController::class, 'delete']);
+    });
+
+
+});

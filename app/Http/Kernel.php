@@ -66,6 +66,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'auth.csrf.jwt' => \App\Http\Middleware\VerifyJwtCsrfToken::class, // JWT CSRF,
         'localisation' => \App\Http\Middleware\Localisation::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
+
     ];
 
 }

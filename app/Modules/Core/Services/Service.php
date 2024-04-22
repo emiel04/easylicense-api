@@ -50,8 +50,6 @@ abstract class Service
             return $model->load('translations');
         }
 
-        \Log::info(json_encode($data));
-
         return $this->model->create($data);
     }
 

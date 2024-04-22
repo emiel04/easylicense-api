@@ -14,6 +14,7 @@ class Review extends Model
         'rating',
         'grade',
         'content',
+        'user_id',
     ];
 
     protected function user(): BelongsTo

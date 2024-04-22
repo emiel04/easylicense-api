@@ -26,12 +26,10 @@ abstract class Service
         return [];
     }
 
-    public function find($id)
+    public function find($lang, $id)
     {
-        return $this->model
-            ->select($this->fields)
-            ->with($this->getRelationFields())
-            ->find($id);
+        return $this->getModel($lang)->find($id);
+
     }
 
     public function create($data, $ruleKey = "add")
@@ -52,6 +50,8 @@ abstract class Service
             return $model->load('translations');
         }
 
+        \Log::info(json_encode($data));
+
         return $this->model->create($data);
     }
 
@@ -63,19 +63,74 @@ abstract class Service
 
         return $this->getModel($language)->paginate($perPage);
     }
-    public function update($data, $id)
+    public function update($data, $find)
     {
-        throw new \Exception('Not implemented');
+        $model = $this->model->find($find);
+        if (!$model) {
+            return null;
+        }
+
+        if (!$this->validate($data, 'update')) {
+            return null;
+        }
+
+        // If the service is translatable, handle the translations separately
+        if ($this->isTranslatable()) {
+            $translationData = $data['translations'];
+            unset($data['translations']);
+
+            $model->update($data);
+            foreach ($translationData as $lang => $translation) {
+                $translationModel = $model->translations()->where('language_code', $lang)->first();
+                if ($translationModel) {
+                    $translationModel->update($translation);
+                } else {
+                    $translation['language_code'] = $lang;
+                    $model->translations()->create($translation);
+                }
+            }
+
+            return $this->getModel()->find($find);
+        }
+
+        // Update the model instance
+        $model->update($data);
+
+        return $this->getModel()->find($find);
     }
 
     public function delete($id)
     {
-        throw new \Exception('Not implemented');
+        $model = $this->getModel()->find($id);
+
+        if (!$model) {
+            return null;
+        }
+
+        if ($this->isTranslatable()) {
+            $model->translations()->delete();
+        }
+
+        $model->delete();
+
+        return $model;
     }
+
 
     public function validate($data, $ruleKey)
     {
+
         $rules = $this->getRules($ruleKey);
+
+        if ($this->isTranslatable()) {
+            $rules['translations'] = function ($attribute, $value, $fail) {
+                $requiredLanguages = ['en', 'nl'];
+                $missingLanguages = array_diff($requiredLanguages, array_keys($value));
+                if (!empty($missingLanguages)) {
+                    $fail('Missing translations for: ' . implode(', ', $missingLanguages));
+                }
+            };
+        }
 
         $this->errors = new MessageBag();
         $validator = Validator::make($data, $rules);

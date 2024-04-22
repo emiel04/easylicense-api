@@ -18,17 +18,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/lessons', [LessonController::class, 'all']);
-Route::post('/lessons', [LessonController::class, 'create']);
-
-Route::get('/categories', [CategoryController::class, 'all']);
-Route::post('/categories', [CategoryController::class, 'create']);
-
-Route::get('/reviews', [ReviewController::class, 'all']);
-Route::post('/reviews', [ReviewController::class, 'create']);
-
-
-
 Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -49,7 +38,19 @@ Route::group([
 });
 // Authenticated routes
 Route::group([
-    "middleware" => ["auth:api", "auth.csrf.jwt"],
+    "middleware" => ["auth:api", "auth.csrf.jwt", "localisation"],
 ], function(){
     Route::get('/lessons/title', [LessonController::class, 'allTitles']);
+    Route::post('/reviews', [ReviewController::class, 'create']);
+    Route::get('/lessons', [LessonController::class, 'all']);
+    Route::get('/lessons/{id}', [LessonController::class, 'find']);
+    Route::post('/lessons', [LessonController::class, 'create']);
+    Route::put('/lessons/{id}', [LessonController::class, 'update']); // THIS IS FOR ADMIN ONLY
+    Route::delete('/lessons/{id}', [LessonController::class, 'delete']); // THIS IS FOR ADMIN ONLY
+
+    Route::get('/categories', [CategoryController::class, 'all']);
+    Route::post('/categories', [CategoryController::class, 'create']);
+
+    Route::get('/reviews', [ReviewController::class, 'all']);
 });
+

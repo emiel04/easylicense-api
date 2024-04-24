@@ -12,9 +12,9 @@ abstract class ApiServiceController extends Controller
 
     public function find(Request $request, $id)
     {
-        $lang = $request->input('lang');
+        $getAllTranslations = $request->input('all') === 'true';
 
-        $data = $this->service->find($lang, $id)->toArray(); // transform the data to an associative array so that it can be manipulated
+        $data = $this->service->find($getAllTranslations, $id)->toArray(); // transform the data to an associative array so that it can be manipulated
         if (empty($data)) {
             return response(null, Response::HTTP_NOT_FOUND);
         }
@@ -29,12 +29,12 @@ abstract class ApiServiceController extends Controller
 
     public function all(Request $request, $paginated = false)
     {
-        $lang = $request->input('lang');
+        $getAllTranslations = $request->input('all') === 'true';
 
         if ($paginated) {
-            $all = $this->service->allPaginated($lang)->toArray(); // transform the data to an associative array so that it can be manipulated
+            $all = $this->service->allPaginated($getAllTranslations)->toArray(); // transform the data to an associative array so that it can be manipulated
         } else {
-            $all = $this->service->all($lang)->toArray();
+            $all = $this->service->all($getAllTranslations)->toArray();
         }
 
         foreach ($all as &$item) { // & means that we are passing the reference of the item

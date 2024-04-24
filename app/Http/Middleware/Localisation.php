@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Modules\Core\Helper\LanguageHelper;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 
 class Localisation
@@ -18,7 +18,8 @@ class Localisation
         }
 
         foreach ($preferredLanguages as $locale) {
-            if (in_array($locale, ['en', 'nl'])) {
+            $locale = LanguageHelper::getLanguageOnly($locale);
+            if (LanguageHelper::isSupportedLocale($locale)) {
                 app()->setLocale($locale);
                 return $next($request);
             }

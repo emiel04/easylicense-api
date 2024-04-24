@@ -22,7 +22,7 @@ class LessonService extends Service
     protected function getRelationFields(): array
     {
         return [
-            'category',
+            'category'
         ];
     }
 
@@ -46,5 +46,21 @@ class LessonService extends Service
             ->select('id', 'title')
             ->with($this->getRelationFields())
             ->with('translations');
+    }
+
+    public function getModel($all = false)
+    {
+        $parentData = parent::getModel($all);
+
+        if(!auth()->check()){
+            return $parentData;
+        }
+
+        // if the user is logged in, we will add if the user completed the lesson or not
+        return $parentData
+            ->leftJoin('user_lesson_progressions', 'lessons.id', '=', 'user_lesson_progressions.lesson_id')
+            ->where('user_lesson_progressions.user_id', auth()->id())
+            ->select('lessons.*', 'user_lesson_progressions.completed');
+
     }
 }

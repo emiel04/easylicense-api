@@ -6,6 +6,7 @@ use App\Models\Lesson;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
+use App\Modules\Core\Helper\LanguageHelper;
 
 abstract class Service
 {
@@ -26,10 +27,9 @@ abstract class Service
         return [];
     }
 
-    public function find($lang, $id)
+    public function find($id, $all = false)
     {
-        $model = $this->getModel($lang);
-        return $this->getModel($lang)->find($id);
+        return $this->getModel($all)->find($id);
 
     }
 
@@ -54,13 +54,13 @@ abstract class Service
         return $this->model->create($data);
     }
 
-    public function all($language, $search = ''){
+    public function all($getAllTranslations, $search = ''){
 
-        return $this->getModel($language)->get();
+        return $this->getModel($getAllTranslations)->get();
     }
-    public function allPaginated($language, $perPage = 5, $search = ''){
+    public function allPaginated($getAllTranslations, $perPage = 5, $search = ''){
 
-        return $this->getModel($language)->paginate($perPage);
+        return $this->getModel($getAllTranslations)->paginate($perPage);
     }
     public function update($data, $id)
     {
@@ -123,7 +123,7 @@ abstract class Service
 
         if ($this->isTranslatable()) {
             $rules['translations'] = function ($attribute, $value, $fail) {
-                $requiredLanguages = ['en', 'nl'];
+                $requiredLanguages = LanguageHelper::getSupportedLanguages();
                 $missingLanguages = array_diff($requiredLanguages, array_keys($value));
                 if (!empty($missingLanguages)) {
                     $fail('Missing translations for: ' . implode(', ', $missingLanguages));
@@ -162,8 +162,12 @@ abstract class Service
     {
         return $this->isTranslatable;
     }
-    public function getModel($language = null)
+    public function getModel($all = false)
     {
+        $language = App::getLocale();
+        if ($all) {
+            $language = null;
+        }
         $model = $this->model
             ->with($this->getRelationFields());
         if ($this->isTranslatable() && $language !== null) {

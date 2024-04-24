@@ -68,7 +68,7 @@ class JwtAuthController extends Controller
         $tokenCookie = cookie("token", $token, $ttl);  // added jwt token cookie
         $csrfCookie = cookie("X-XSRF-TOKEN", $csrfToken, $ttl); // added csrf token cookie
 
-        return response(["message" => "User logged in succcessfully"])
+        return response(["status" => true, "message" => "User logged in successfully"])
             ->withCookie($tokenCookie) // added cookies
             ->withCookie($csrfCookie); // added cookies
     }

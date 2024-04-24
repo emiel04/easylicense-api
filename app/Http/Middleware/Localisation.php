@@ -11,19 +11,18 @@ class Localisation
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $lang = $request->header('Accept-Language');
-        if (!$lang) {
-            $lang = 'en';
+        $preferredLanguages = $request->getLanguages();
+
+        if (empty($preferredLanguages)) {
+            $preferredLanguages = ['en'];
         }
 
-
-        if (in_array($lang, ['en', 'nl'])) {
-            App::setLocale($lang);
-            return $next($request);
-        } else {
-            return response()->json(['message' => 'Language not supported'], Response::HTTP_BAD_REQUEST);
+        foreach ($preferredLanguages as $locale) {
+            if (in_array($locale, ['en', 'nl'])) {
+                app()->setLocale($locale);
+                return $next($request);
+            }
         }
-
-
+        return response()->json(['message' => 'Language not supported'], Response::HTTP_BAD_REQUEST);
     }
 }

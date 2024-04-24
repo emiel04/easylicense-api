@@ -14,7 +14,8 @@ abstract class ApiServiceController extends Controller
     {
         $getAllTranslations = $request->input('all') === 'true';
 
-        $data = $this->service->find($getAllTranslations, $id)->toArray(); // transform the data to an associative array so that it can be manipulated
+
+        $data = $this->service->find($id, $getAllTranslations)->toArray();
         if (empty($data)) {
             return response(null, Response::HTTP_NOT_FOUND);
         }

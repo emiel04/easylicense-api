@@ -27,10 +27,10 @@ abstract class Service
         return [];
     }
 
-    public function find($id, $all = false)
+    public function find($id, $getAllTranslations = false)
     {
-        return $this->getModel($all)->find($id);
-
+        $model = $this->getModel($getAllTranslations);
+        return $this->getModel($getAllTranslations)->find($id);
     }
 
     public function create($data, $ruleKey = "add")

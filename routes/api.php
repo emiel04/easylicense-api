@@ -27,12 +27,12 @@ Route::group([
 ], function(){
     Route::post("register", [JwtAuthController::class, "register"]);
     Route::post("login", [JwtAuthController::class, "login"]);
-    Route::get("refresh", [JwtAuthController::class, "refreshToken"]);
+    Route::post("refresh", [JwtAuthController::class, "refreshToken"]);
     Route::group([
         "middleware" => ["auth:api", "auth.csrf.jwt"],
     ], function(){
         Route::get("profile", [JwtAuthController::class, "profile"]);
-        Route::get("logout", [JwtAuthController::class, "logout"]);
+        Route::post("logout", [JwtAuthController::class, "logout"]);
     });
 
 });

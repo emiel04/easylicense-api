@@ -58,6 +58,8 @@ Route::group([
     ], function(){
         Route::put('/lessons/{id}', [LessonController::class, 'update']);
         Route::delete('/lessons/{id}', [LessonController::class, 'delete']);
+        Route::delete('/reviews/{id}', [ReviewController::class, 'delete']);
+
     });
 
 

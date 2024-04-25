@@ -32,7 +32,7 @@ class LessonTranslationFactory extends Factory
         if ($type == 'title') {
             return $languageCode == 'nl' ? 'Dutch Title ' . $lessonId : 'English Title ' . $lessonId;
         } else {
-            return $languageCode == 'nl' ? 'Dutch Content ' . $lessonId : 'English Content ' . $lessonId;
+            return $languageCode == 'nl' ? '<h2>Dutch Content</h2> ' . $lessonId : '<h2>English Content </h2>' . $lessonId;
         }
     }
 }

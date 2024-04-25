@@ -19,7 +19,7 @@ class UserLessonProgressionSeeder extends Seeder
                 UserLessonProgression::create([
                     'user_id' => $user->id,
                     'lesson_id' => $lesson->id,
-                    'completed' => $user->id % 2 === 0 ? 0 : 1,
+                    'completed' => rand(0, 1),
                 ]);
             }
         }

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Nette\Utils\Random;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Http\Response;
 
 // TO REFACTOR!!!
 
@@ -60,7 +61,7 @@ class JwtAuthController extends Controller
                 ->json([
                     "status" => false,
                     "message" => "Invalid details"
-                ]);
+                ], Response::HTTP_UNAUTHORIZED);
         }
 
         // add cookies
@@ -75,12 +76,11 @@ class JwtAuthController extends Controller
 
     // User Profile (GET)
     public function profile(){
-
         $userdata = auth()->user();
 
         return response()->json([
             "status" => true,
-            "message" => "Profile data",
+            "message" => "Your profile",
             "data" => $userdata
         ]);
     }
@@ -97,6 +97,9 @@ class JwtAuthController extends Controller
             ->claims(['X-XSRF-TOKEN' => $csrfToken])
             ->refresh();
 
+        if (!JWTAuth::check()) { // Check if the token is valid
+            return response()->json(['message' => 'Token is invalid'], Response::HTTP_UNAUTHORIZED);
+        }
 
         $ttl = env("JWT_COOKIE_TTL");   // added token expiry
         $tokenCookie = cookie("token", $newToken, $ttl);  // added jwt token cookie

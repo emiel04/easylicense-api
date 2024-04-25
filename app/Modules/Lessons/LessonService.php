@@ -55,12 +55,15 @@ class LessonService extends Service
         if(!auth()->check()){
             return $parentData;
         }
-
+//        \Log::info(json_encode($parentData->get()));
         // if the user is logged in, we will add if the user completed the lesson or not
+
         return $parentData
-            ->leftJoin('user_lesson_progressions', 'lessons.id', '=', 'user_lesson_progressions.lesson_id')
-            ->where('user_lesson_progressions.user_id', auth()->id())
-            ->select('lessons.*', 'user_lesson_progressions.completed');
+            ->leftJoin('user_lesson_progressions', function ($join) {
+                $join->on('lessons.id', '=', 'user_lesson_progressions.lesson_id')
+                    ->where('user_lesson_progressions.user_id', auth()->id());
+            })                              // if no matching record, just put it to false
+            ->select('lessons.*', \DB::raw('coalesce(user_lesson_progressions.completed, false) as completed'));
 
     }
 }

@@ -18,6 +18,12 @@ class ReviewService extends Service
     protected string $searchField = 'id';
     protected bool $isTranslatable = false;
     protected $model = Review::class;
+    protected function getRelationFields(): array
+    {
+        return [
+            'user:id,name' // only the id and name are needed
+        ];
+    }
     public function __construct(Review $model)
     {
         parent::__construct($model);

@@ -13,14 +13,16 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-         User::factory()->create([
-             'name' => 'Admin user',
-             'email' => 'admin@easylicense.be',
-             'admin' => true
-         ]);
+        User::factory()->create([
+            'name' => 'Admin user',
+            'email' => 'admin@easylicense.be',
+            'admin' => true
+        ]);
         User::factory()->create([
             'name' => 'User user',
             'email' => 'user@easylicense.be',
         ]);
+        User::factory()->count(10)->create();
+
     }
 }

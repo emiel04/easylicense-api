@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,7 +13,7 @@ return new class extends Migration {
             $table->integer('rating');
             $table->integer('grade');
             $table->string('content');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignIdFor(User::class)->constrained();
             $table->unique('user_id');
             $table->timestamps();
         });

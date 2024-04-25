@@ -31,9 +31,12 @@ abstract class ApiServiceController extends Controller
     public function all(Request $request, $paginated = false)
     {
         $getAllTranslations = $request->input('all') === 'true';
+        $perPage = $request->input('per_page') ?? 10;
+        $search = $request->input('search') ?? '';
+
 
         if ($paginated) {
-            $all = $this->service->allPaginated($getAllTranslations)->toArray(); // transform the data to an associative array so that it can be manipulated
+            $all = $this->service->allPaginated($getAllTranslations, $perPage, $search)->toArray(); // transform the data to an associative array so that it can be manipulated
         } else {
             $all = $this->service->all($getAllTranslations)->toArray();
         }

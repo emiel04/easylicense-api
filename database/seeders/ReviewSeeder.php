@@ -3,14 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ReviewSeeder extends Seeder
 {
     public function run(): void
     {
-        Review::factory()
-            ->count(1)
-            ->create(['user_id' => 1]);
+        $users = User::all();
+
+        foreach ($users as $user) {
+            Review::factory()->create(['user_id' => $user->id]);
+        }
     }
 }

@@ -17,7 +17,7 @@ class Review extends Model
         'user_id',
     ];
 
-    protected function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

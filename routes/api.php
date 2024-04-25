@@ -50,7 +50,7 @@ Route::group([
     Route::get('/categories', [CategoryController::class, 'all']);
     Route::post('/categories', [CategoryController::class, 'create']);
 
-    Route::get('/reviews', [ReviewController::class, 'all']);
+    Route::get('/reviews', [ReviewController::class, 'allPaginated']);
 
     Route::group([
         "middleware" => ["admin"],

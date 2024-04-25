@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\User;
 use App\Modules\Reviews\ReviewService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,5 +40,6 @@ class ReviewController extends ApiServiceController
 
         return response()->json($review, 201);
     }
+
 
 }

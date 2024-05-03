@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->id();
             $table->integer('rating');
             $table->integer('grade');
-            $table->string('content');
+            $table->string('content')->nullable();
             $table->foreignIdFor(User::class)->constrained();
             $table->unique('user_id');
             $table->timestamps();

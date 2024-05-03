@@ -22,17 +22,11 @@ class ReviewController extends ApiServiceController
     {
         $user = $request->user();
 
-        if ($user->reviews()->exists()) {
+        if ($user->review()->exists()) {
             return response()->json(['message' => Lang::get('validation.unique_review')], Response::HTTP_BAD_REQUEST);
         }
 
         $data = $request->all();
-
-        $this->validate($request, [
-            'rating' => 'required|integer|min:1|max:5',
-            'grade' => 'required|integer|min:1|max:50',
-            'content' => 'required|string',
-        ]);
 
         $data['user_id'] = $user->id;
 

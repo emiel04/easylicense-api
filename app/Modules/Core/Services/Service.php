@@ -35,7 +35,7 @@ abstract class Service
 
     public function create($data, $ruleKey = "add")
     {
-        if(! $this->validate($data, $ruleKey)){
+        if(!$this->validate($data, $ruleKey)){
             return null;
         }
         if ($this->isTranslatable()) {

@@ -11,9 +11,10 @@ class ReviewService extends Service
 {
     protected array $fields = ['content', 'rating', 'grade', 'user_id'];
     protected array $rules =
-        ['content' => 'required',
-            'rating' => 'required|integer|min:0|max:5',
-            'grade' => 'required|integer|min:1|max:50',
+        [
+            'content' => 'nullable|min:1',
+            'rating' => 'required|integer|min:1|max:5',
+            'grade' => 'required|integer|min:0|max:50',
             'user_id' => 'required'];
     protected string $searchField = 'id';
     protected bool $isTranslatable = false;

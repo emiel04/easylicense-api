@@ -94,7 +94,7 @@ abstract class ApiServiceController extends Controller
 
         return response()->json($deletedData, Response::HTTP_OK);
     }
-    private function presentErrors($errors){
+    protected function presentErrors($errors){
 
         return
             [

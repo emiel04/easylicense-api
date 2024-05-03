@@ -15,8 +15,8 @@ class ReviewFactory extends Factory
         return [
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'rating' => $this->faker->numberBetween(0, 5),
-            'grade' => $this->faker->numberBetween(1, 50),
+            'rating' => $this->faker->numberBetween(1, 5),
+            'grade' => $this->faker->numberBetween(0, 50),
             'content' => $this->faker->sentence(6),
         ];
     }

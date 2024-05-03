@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JwtAuthController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\UserProgressionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,15 +41,13 @@ Route::group([
 Route::group([
     "middleware" => ["auth:api", "auth.csrf.jwt", "localisation"],
 ], function(){
-    Route::get('/lessons/title', [LessonController::class, 'allTitles']);
     Route::post('/reviews', [ReviewController::class, 'create']);
     Route::get('/lessons', [LessonController::class, 'all']);
     Route::get('/lessons/{id}', [LessonController::class, 'find']);
     Route::post('/lessons', [LessonController::class, 'create']);
-
+    Route::patch('/progressions/{lesson_id}', [UserProgressionController::class, 'updateOrCreate']);
 
     Route::get('/categories', [CategoryController::class, 'all']);
-    Route::post('/categories', [CategoryController::class, 'create']);
 
     Route::get('/reviews', [ReviewController::class, 'allPaginated']);
 
@@ -59,7 +58,7 @@ Route::group([
         Route::put('/lessons/{id}', [LessonController::class, 'update']);
         Route::delete('/lessons/{id}', [LessonController::class, 'delete']);
         Route::delete('/reviews/{id}', [ReviewController::class, 'delete']);
-
+        Route::post('/categories', [CategoryController::class, 'create']);
     });
 
 

@@ -32,7 +32,7 @@ class ReviewController extends ApiServiceController
 
         $review = $this->service->create($data);
 
-        return response()->json($review, 201);
+        return response()->json($review, Response::HTTP_CREATED);
     }
 
 

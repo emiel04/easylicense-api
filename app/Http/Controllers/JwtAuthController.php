@@ -98,6 +98,7 @@ class JwtAuthController extends Controller
                 ->claims(['X-XSRF-TOKEN' => $csrfToken])
                 ->refresh();
         }catch (TokenInvalidException $e){
+            \Log::error($e->getMessage());
             return response()->json(['message' => 'Token is invalid'], Response::HTTP_UNAUTHORIZED);
         }
 

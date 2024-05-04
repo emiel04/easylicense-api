@@ -13,7 +13,7 @@ class LessonService extends Service
 
     protected array $rules = [
         "add" => [
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'nullable|exists:categories,id',
         ],
         "update" => [
             'category_id' => 'exists:categories,id',

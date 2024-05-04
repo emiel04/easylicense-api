@@ -12,7 +12,6 @@ class Localisation
     public function handle(Request $request, Closure $next): Response
     {
         $preferredLanguages = $request->getLanguages();
-
         if (empty($preferredLanguages)) {
             $preferredLanguages = ['en'];
         }

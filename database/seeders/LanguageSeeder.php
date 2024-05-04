@@ -11,8 +11,8 @@ class LanguageSeeder extends Seeder
     public function run(): void
     {
         $languages = [
-            ['language_code' => 'nl', 'language_name' => 'Nederlands', 'language_name_native' => 'Nederlands'],
             ['language_code' => 'en', 'language_name' => 'Engels', 'language_name_native' => 'English'],
+            ['language_code' => 'nl', 'language_name' => 'Nederlands', 'language_name_native' => 'Nederlands'],
         ];
 
         foreach ($languages as $l) {

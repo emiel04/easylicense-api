@@ -34,7 +34,7 @@ class JwtAuthController extends Controller
         // Response
         return response()->json([
             "status" => true,
-            "message" => "User registered successfully"
+            "message" => __("auth.user_registered_successfully")
         ]);
     }
 
@@ -70,7 +70,7 @@ class JwtAuthController extends Controller
         $tokenCookie = cookie("token", $token, $ttl);  // added jwt token cookie
         $csrfCookie = cookie("X-XSRF-TOKEN", $csrfToken, $ttl); // added csrf token cookie
 
-        return response(["status" => true, "message" => "User logged in successfully", "user" => auth()->user()])
+        return response(["status" => true, "message" => __("auth.user_logged_in_successfully"), "user" => auth()->user()])
             ->withCookie($tokenCookie) // added cookies
             ->withCookie($csrfCookie); // added cookies
     }
@@ -118,7 +118,7 @@ class JwtAuthController extends Controller
 
         return response()->json([
             "status" => true,
-            "message" => "User logged out successfully"
+            "message" => __("auth.user_logged_out_successfully")
         ]);
     }
 }

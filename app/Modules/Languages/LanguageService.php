@@ -22,6 +22,25 @@ class LanguageService extends Service
         return [
         ];
     }
+
+    public function getLang($langCode)
+    {
+        $language = $this->model->where('language_code', $langCode)->first();
+
+        if (!$language) {
+            return null;
+        }
+
+        $filePath = lang_path("{$langCode}/translations.json");
+
+        if (file_exists($filePath)) {
+            return $filePath;
+        }
+
+        return null;
+    }
+
+
     public function __construct(Language $model)
     {
         parent::__construct($model);

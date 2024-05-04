@@ -23,9 +23,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/lang/{langCode}', [LanguageController::class, 'getLang']);
+Route::get('/lang', [LanguageController::class, 'all']);
 
 Route::group([
     "prefix" => "auth",
+    "middleware" => ["localisation"],
 ], function(){
     Route::post("register", [JwtAuthController::class, "register"]);
     Route::post("login", [JwtAuthController::class, "login"]);
@@ -51,8 +54,6 @@ Route::group([
     Route::get('/categories', [CategoryController::class, 'all']);
 
     Route::get('/reviews', [ReviewController::class, 'allPaginated']);
-
-    Route::get('/lang', [LanguageController::class, 'all']);
 
     Route::group([
         "middleware" => ["admin"],

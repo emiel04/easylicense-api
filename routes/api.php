@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JwtAuthController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LessonController;
@@ -48,10 +47,8 @@ Route::group([
     Route::post('/reviews', [ReviewController::class, 'create']);
     Route::get('/lessons', [LessonController::class, 'all']);
     Route::get('/lessons/{id}', [LessonController::class, 'find']);
-    Route::post('/lessons', [LessonController::class, 'create']);
     Route::patch('/progressions/{lesson_id}', [UserProgressionController::class, 'updateOrCreate']);
 
-    Route::get('/categories', [CategoryController::class, 'all']);
 
     Route::get('/reviews', [ReviewController::class, 'allPaginated']);
 
@@ -61,9 +58,7 @@ Route::group([
     ], function(){
         Route::patch('/lessons/{id}', [LessonController::class, 'update']);
         Route::delete('/lessons/{id}', [LessonController::class, 'delete']);
+        Route::post('/lessons', [LessonController::class, 'create']);
         Route::delete('/reviews/{id}', [ReviewController::class, 'delete']);
-        Route::post('/categories', [CategoryController::class, 'create']);
     });
-
-
 });

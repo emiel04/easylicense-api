@@ -28,10 +28,11 @@ class UserProgressionService extends Service
 
     public function updateOrCreate($data) // TODO put this method in service and make sure it works with translatables
     {
+        \Log::info(json_encode($data));
         if (!$this->validate($data, 'updateOrCreate')) {
             return null;
         }
-
+        \Log::info(json_encode($data));
         return $this->model->updateOrCreate(
             [
                 'user_id' => $data['user_id'],

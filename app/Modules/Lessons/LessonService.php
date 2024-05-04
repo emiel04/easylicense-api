@@ -56,7 +56,6 @@ class LessonService extends Service
         if(!auth()->check()){
             return $parentData;
         }
-//        \Log::info(json_encode($parentData->get()));
         // if the user is logged in, we will add if the user completed the lesson or not
 
         return $parentData

@@ -10,7 +10,9 @@ class UserLessonProgression extends Model
     protected $hidden = ['created_at', 'updated_at', 'id'];
 
     protected $fillable = [
-       'completed'
+       'completed',
+       'user_id',
+       'lesson_id'
     ];
     public function user(): BelongsTo
     {

@@ -2,8 +2,6 @@
 
 namespace App\Modules\Reviews;
 
-use App\Models\Category;
-use App\Models\Lesson;
 use App\Models\Review;
 use App\Modules\Core\Services\Service;
 

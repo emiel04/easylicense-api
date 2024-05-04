@@ -16,7 +16,8 @@ class LessonService extends Service
             'category_id' => 'required|exists:categories,id',
         ],
         "update" => [
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => 'exists:categories,id',
+            'id' => 'required|exists:lessons,id'
         ]
     ];
     protected function getRelationFields(): array

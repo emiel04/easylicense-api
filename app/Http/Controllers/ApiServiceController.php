@@ -14,13 +14,12 @@ abstract class ApiServiceController extends Controller
     {
         $getAllTranslations = $request->input('all') === 'true';
 
-
-        $data = $this->service->find($id, $getAllTranslations)->toArray();
+        $data = $this->service->find($id, $getAllTranslations);
         if (empty($data)) {
             return response(null, Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($this->transformTranslatableData($data));
+        return response()->json($this->transformTranslatableData($data->toArray()));
     }
 
     public function allPaginated(Request $request)
@@ -75,6 +74,7 @@ abstract class ApiServiceController extends Controller
     public function update(Request $request, $id)
     {
         $updatedData = $this->service->update($request->all(), $id);
+
         if ($this->service->hasErrors()) {
             $errors = $this->service->getErrors();
             $errors = $this->presentErrors($errors);

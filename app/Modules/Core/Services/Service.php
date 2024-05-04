@@ -29,7 +29,6 @@ abstract class Service
 
     public function find($id, $getAllTranslations = false)
     {
-        $model = $this->getModel($getAllTranslations);
         return $this->getModel($getAllTranslations)->find($id);
     }
 
@@ -64,7 +63,13 @@ abstract class Service
     }
     public function update($data, $id)
     {
+        $data['id'] = $id;
+        if(!$this->validate($data, 'update')){
+            return null;
+        }
+
         $model = $this->model->find($id);
+
         if (!$model) {
             return null;
         }
@@ -88,14 +93,12 @@ abstract class Service
                     $model->translations()->create($translation);
                 }
             }
-
-            return $this->getModel()->find($id);
+            return $this->getModel(true)->find($id);
         }
 
         // Update the model instance
         $model->update($data);
-
-        return $this->getModel()->find($id);
+        return $this->getModel(true)->find($id);
     }
 
     public function delete($id)

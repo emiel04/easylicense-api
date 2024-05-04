@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Nette\Utils\Random;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Http\Response;
 
@@ -92,12 +93,11 @@ class JwtAuthController extends Controller
         $csrfToken = Random::generate($csrfLength);     // added token generation
 
         $currentToken = auth()->getToken();
-
-        $newToken = JWTAuth::setToken($currentToken)
-            ->claims(['X-XSRF-TOKEN' => $csrfToken])
-            ->refresh();
-
-        if (!JWTAuth::check()) { // Check if the token is valid
+        try{
+            $newToken = JWTAuth::setToken($currentToken)
+                ->claims(['X-XSRF-TOKEN' => $csrfToken])
+                ->refresh();
+        }catch (TokenInvalidException $e){
             return response()->json(['message' => 'Token is invalid'], Response::HTTP_UNAUTHORIZED);
         }
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JwtAuthController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserProgressionController;
@@ -50,6 +51,8 @@ Route::group([
     Route::get('/categories', [CategoryController::class, 'all']);
 
     Route::get('/reviews', [ReviewController::class, 'allPaginated']);
+
+    Route::get('/lang', [LanguageController::class, 'all']);
 
     Route::group([
         "middleware" => ["admin"],

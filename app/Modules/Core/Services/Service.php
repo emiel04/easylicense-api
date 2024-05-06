@@ -16,6 +16,7 @@ abstract class Service
     protected MessageBag $errors;
     protected array $rules;
     protected bool $isTranslatable = false;
+    protected array $filters = [];
 
     public function __construct($model)
     {
@@ -53,13 +54,13 @@ abstract class Service
         return $this->model->create($data);
     }
 
-    public function all($getAllTranslations, $search = ''){
+    public function all($getAllTranslations, $search = '', $filters = []){
 
-        return $this->getModel($getAllTranslations)->get();
+        return $this->getModel($getAllTranslations, $search, $filters)->get();
     }
-    public function allPaginated($getAllTranslations, $perPage = 5, $search = ''){
+    public function allPaginated($getAllTranslations, $perPage = 5, $search = '', $filters = []){
 
-        return $this->getModel($getAllTranslations)->paginate($perPage);
+        return $this->getModel($getAllTranslations, $search, $filters)->paginate($perPage);
     }
     public function update($data, $id)
     {
@@ -165,7 +166,7 @@ abstract class Service
     {
         return $this->isTranslatable;
     }
-    public function getModel($all = false)
+    public function getModel($all = false, $search = '', $filters = [])
     {
         $language = App::getLocale();
         if ($all) {
@@ -179,6 +180,21 @@ abstract class Service
             }]);
         }else if($this->isTranslatable()){
             $model = $model->with('translations');
+        }
+
+
+        if ($search) {
+            $model = $model->where($this->searchField, 'like', '%' . $search . '%');
+            if($this->isTranslatable()){ // also search the translations
+                $model = $model->orWhereHas('translations', function ($query) use ($search) {
+                    $query->where($this->searchField, 'like', '%' . $search . '%');
+                });
+            }
+        }
+        foreach ($filters as $field => $value) {
+            if(in_array($field, $this->filters)){
+                $model = $model->where($field, $value);
+            }
         }
 
         return $model;

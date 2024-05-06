@@ -8,7 +8,7 @@ use App\Modules\Core\Services\Service;
 class LessonService extends Service
 {
     protected array $fields = ['id', 'category_id'];
-    protected string $searchField = 'id';
+    protected string $searchField = 'title';
     protected bool $isTranslatable = true;
 
     protected array $rules = [
@@ -49,9 +49,9 @@ class LessonService extends Service
             ->with('translations');
     }
 
-    public function getModel($all = false)
+    public function getModel($all = false, $search = '', $filters = [])
     {
-        $parentData = parent::getModel($all);
+        $parentData = parent::getModel($all, $search, $filters);
 
         if(!auth()->check()){
             return $parentData;

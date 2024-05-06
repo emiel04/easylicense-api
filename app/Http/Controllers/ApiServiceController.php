@@ -33,11 +33,12 @@ abstract class ApiServiceController extends Controller
         $perPage = $request->input('per_page') ?? 10;
         $search = $request->input('search') ?? '';
 
+        $filters = $request->all();
 
         if ($paginated) {
-            $all = $this->service->allPaginated($getAllTranslations, $perPage, $search)->toArray(); // transform the data to an associative array so that it can be manipulated
+            $all = $this->service->allPaginated($getAllTranslations, $perPage, $search, $filters)->toArray(); // transform the data to an associative array so that it can be manipulated
         } else {
-            $all = $this->service->all($getAllTranslations)->toArray();
+            $all = $this->service->all($getAllTranslations, $search, $filters)->toArray();
         }
 
         foreach ($all as &$item) { // & means that we are passing the reference of the item

@@ -8,6 +8,7 @@ use App\Modules\Core\Services\Service;
 class ReviewService extends Service
 {
     protected array $fields = ['content', 'rating', 'grade', 'user_id'];
+    protected array $filters = ['grade', 'rating'];
     protected array $rules =
         [
             'content' => 'nullable|min:1',

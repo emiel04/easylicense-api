@@ -47,6 +47,8 @@
     "please-wait": "Even geduld aub...",
     "lesson-saved": "Les is opgeslagen!",
     "add-new-lesson": "Nieuwe les aanmaken",
-    "search-title": "Zoek titel"
+    "search-title": "Zoek titel",
+    "filter-rating": "Filteren op beoordeling",
+    "filter-deselect": "Alle beoordelingen"
 
 }

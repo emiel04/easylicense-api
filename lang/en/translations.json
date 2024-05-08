@@ -47,5 +47,7 @@
     "please-wait": "Please wait...",
     "lesson-saved": "Lesson saved!",
     "add-new-lesson": "Create a new lesson",
-    "search-title": "Search title"
+    "search-title": "Search title",
+    "filter-rating": "Filter by rating",
+    "filter-deselect": "All"
 }

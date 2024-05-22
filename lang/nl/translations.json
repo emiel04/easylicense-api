@@ -38,7 +38,7 @@
     "completed": "Voltooid",
     "not-completed": "Niet voltooid",
     "back": "terug",
-    "edit": "bewerken",
+    "delete": "verwijderen",
     "save": "opslaan",
     "cancel": "annuleren",
     "set-article-completed": "Les als voltooid instellen",

@@ -39,6 +39,7 @@
     "not-completed": "Not Completed",
     "back": "back",
     "edit": "edit",
+    "delete": "delete",
     "save": "save",
     "cancel": "cancel",
     "set-article-completed": "Set lesson as completed",

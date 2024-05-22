@@ -47,11 +47,10 @@ abstract class Service
                 $translation['language_code'] = $lang;
                 $model->translations()->create($translation);
             }
-
-            return $model->load('translations');
+            return $this->find($model->id, true);
         }
-
-        return $this->model->create($data);
+        $model = $this->model->create($data);
+        return $this->find($model->id);
     }
 
     public function all($getAllTranslations, $search = '', $filters = []){

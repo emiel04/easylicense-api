@@ -47,7 +47,7 @@ class JwtAuthController extends Controller
             "password" => "required"
         ]);
 
-        $csrfLength = env("CSRF_TOKEN_LENGTH");         // added token length
+        $csrfLength = config('csrf.token_length');  // token length
         $csrfToken = Random::generate($csrfLength);     // added token generation
 
         // JWTAuth
@@ -70,7 +70,13 @@ class JwtAuthController extends Controller
         $tokenCookie = cookie("token", $token, $ttl);  // added jwt token cookie
         $csrfCookie = cookie("X-XSRF-TOKEN", $csrfToken, $ttl); // added csrf token cookie
 
-        return response(["status" => true, "message" => __("auth.user_logged_in_successfully"), "user" => auth()->user()])
+        return response(
+            ["status" => true,
+                "message" => __("auth.user_logged_in_successfully"),
+                "user" => auth()->user(),
+                "token" => $token // ADDED THIS PURELY FOR TESTING SWAGGER UI
+            ],
+        )
             ->withCookie($tokenCookie) // added cookies
             ->withCookie($csrfCookie); // added cookies
     }
@@ -89,7 +95,7 @@ class JwtAuthController extends Controller
     // To generate refresh token value
     public function refreshToken(){
 
-        $csrfLength = env("CSRF_TOKEN_LENGTH");         // added token length
+        $csrfLength = config('csrf.token_length');        // added token length
         $csrfToken = Random::generate($csrfLength);     // added token generation
 
         $currentToken = auth()->getToken();
@@ -106,7 +112,7 @@ class JwtAuthController extends Controller
         $tokenCookie = cookie("token", $newToken, $ttl);  // added jwt token cookie
         $csrfCookie = cookie("X-XSRF-TOKEN", $csrfToken, $ttl); // added csrf token cookie
 
-        return response(["message" => "Token refresh succcessfully"])
+        return response(["message" => "Token refresh successfully"])
             ->withCookie($tokenCookie) // added cookies
             ->withCookie($csrfCookie); // added cookies
     }

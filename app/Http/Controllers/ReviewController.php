@@ -32,6 +32,12 @@ class ReviewController extends ApiServiceController
 
         $review = $this->service->create($data);
 
+        if ($this->service->hasErrors()) {
+            $errors = $this->service->getErrors();
+            $errors = $this->presentErrors($errors);
+            return response()->json($errors, Response::HTTP_BAD_REQUEST);
+        }
+
         return response()->json($review, Response::HTTP_CREATED);
     }
 

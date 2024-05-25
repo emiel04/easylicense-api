@@ -14,12 +14,6 @@ class LessonController extends ApiServiceController
         $this->service = $service;
     }
 
-
-    public function allTitles(Request $request)
-    {
-        $lessons = $this->service->titles();
-        return response()->json($lessons);
-    }
     public function random(Request $request)
     {
         $lesson = $this->service->random();

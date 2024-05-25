@@ -19,6 +19,13 @@ abstract class ApiServiceController extends Controller
             return response(null, Response::HTTP_NOT_FOUND);
         }
 
+        if ($this->service->hasErrors()) {
+            $errors = $this->service->getErrors();
+            $errors = $this->presentErrors($errors);
+            return response()->json($errors, Response::HTTP_BAD_REQUEST);
+        }
+
+
         return response()->json($this->transformTranslatableData($data->toArray()));
     }
 

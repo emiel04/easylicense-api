@@ -61,7 +61,7 @@ class JwtAuthController extends Controller
             return response()
                 ->json([
                     "status" => false,
-                    "message" => __("messages.invalid_details")
+                    "message" => __("auth.invalid_details")
                 ], Response::HTTP_UNAUTHORIZED);
         }
 
@@ -105,7 +105,7 @@ class JwtAuthController extends Controller
                 ->refresh();
         }catch (TokenInvalidException $e){
             \Log::error($e->getMessage());
-            return response()->json(['message' => __("messages.invalid_token")], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => __("auth.invalid_token")], Response::HTTP_UNAUTHORIZED);
         }
 
         $ttl = env("JWT_COOKIE_TTL");   // added token expiry

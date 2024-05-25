@@ -50,5 +50,8 @@
     "add-new-lesson": "Create a new lesson",
     "search-title": "Search title",
     "filter-rating": "Filter by rating",
-    "filter-deselect": "All"
+    "filter-deselect": "All",
+    "english": "english",
+    "dutch": "dutch",
+    "title-empty": "{title} title cannot be empty."
 }

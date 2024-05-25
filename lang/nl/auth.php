@@ -19,4 +19,6 @@ return [
     'user_registered_successfully' => 'Succesvol geregistreerd',
     'user_logged_in_successfully' => 'Succesvol ingelogd',
     'user_logged_out_successfully' => 'Succesvol uitgelogd',
+    'invalid_details' => 'Ongeldige inloggegevens',
+    'invalid_token' => 'Token is ongeldig'
 ];

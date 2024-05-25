@@ -19,4 +19,6 @@ return [
     'user_registered_successfully' => 'Registered successfully',
     'user_logged_in_successfully' => 'Logged in successfully',
     'user_logged_out_successfully' => 'Logged out successfully',
+    'invalid_details' => 'Invalid details',
+    'invalid_token' => 'Token is invalid',
 ];

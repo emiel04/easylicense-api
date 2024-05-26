@@ -11,7 +11,7 @@ class VerifyJwtCsrfToken
 
     public function handle(Request $request, Closure $next): Response
     {
-        if (config('csrf.disable_csrf_check')) { // for testing through Swagger UI, this disables the csrf check,
+        if (config('csrf.enable_header_auth')) { // for testing through Swagger UI, this disables the csrf check,
             return $next($request);                   // but in production, this should be set to false
         }
 

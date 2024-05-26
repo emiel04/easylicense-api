@@ -70,13 +70,17 @@ class JwtAuthController extends Controller
         $tokenCookie = cookie("token", $token, $ttl);  // added jwt token cookie
         $csrfCookie = cookie("X-XSRF-TOKEN", $csrfToken, $ttl); // added csrf token cookie
 
-        return response(
+        $responseData =
             ["status" => true,
                 "message" => __("auth.user_logged_in_successfully"),
-                "user" => auth()->user(),
-                "token" => $token // ADDED THIS PURELY FOR TESTING SWAGGER UI
-            ],
-        )
+                "user" => auth()->user()
+            ];
+
+        if (config('csrf.enable_header_auth')) {
+            $responseData['token'] = $token;
+        }
+
+        return response($responseData)
             ->withCookie($tokenCookie) // added cookies
             ->withCookie($csrfCookie); // added cookies
     }
